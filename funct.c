@@ -6,7 +6,7 @@
 /*   By: gpetrov <gpetrov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/27 16:16:20 by gpetrov           #+#    #+#             */
-/*   Updated: 2013/12/27 17:55:54 by gpetrov          ###   ########.fr       */
+/*   Updated: 2013/12/27 21:12:02 by gpetrov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ int		ft_exec(t_data *data)
 		i++;
 	}
 	if (t == -1 && ft_strcmp(data->name_cmd, "exit") != 0)
-		{
-			ft_putstr("[NOT_FOUND] : cherche pas la petite bete.");
-			ft_putchar('\n');
-			exit(0);
-		}
+	{
+		ft_putstr("[NOT_FOUND] : cherche pas la petite bete.");
+		ft_putchar('\n');
+		exit(0);
+	}
 	return (0);
 }
 
@@ -80,13 +80,15 @@ int		ft_exec_cmd(t_data *data)
 {
 	int		ret;
 
+	if (ft_strcmp(data->name_cmd, "cd") == 0 && data->argv[1])
+		chdir(data->argv[1]);
 	data->pid = fork();
 	if (data->pid == -1)
 	{
 		ft_putstr("fork : problem.");
 		ft_putchar('\n');
 	}
-	if (data->pid == 0)
+	if (data->pid == 0 && ft_strcmp(data->name_cmd, "cd") != 0)
 	{
 		ft_exec(data);
 		exit(0);
